@@ -44,4 +44,5 @@ Explore sightings using the interactive map.
 Click a city marker to view its recorded sightings.
 Use the filters to search by date, species or region.
 View weekly sighting trends.
+Use filters to search by species, location and the time frame.
 Submit new sightings using the reporting form.
