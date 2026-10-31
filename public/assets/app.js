@@ -297,11 +297,13 @@ function getFilteredSightings() {
   });
 }
 
+
 function updateMap(records) {
+
   // Reset the selected city whenever the map is refreshed.
   selectedCity = null;
 
-  // Remove existing markers from the map.
+  // Remove existing markers.
   markersLayer.clearLayers();
 
   // Retrieve the city records container.
@@ -310,23 +312,18 @@ function updateMap(records) {
   // Group sightings according to their city.
   const cityGroups = {};
 
-  // Loop through all filtered sightings.
   records.forEach(sighting => {
 
-    // Retrieve the city name.
     const city = String(sighting.location ?? "").trim();
 
-    // Retrieve the coordinates.
     const latitude = getLatitude(sighting);
     const longitude = getLongitude(sighting);
 
-    // Skip records without valid coordinates or a city name.
+    // Ignore records without valid coordinates or a city name.
     if (!city || latitude === null || longitude === null) return;
 
-    // Use a consistent city name as the grouping key.
     const cityKey = city.toLowerCase();
 
-    // Create a city group if one does not already exist.
     if (!cityGroups[cityKey]) {
       cityGroups[cityKey] = {
         name: city,
@@ -335,31 +332,67 @@ function updateMap(records) {
       };
     }
 
-    // Add the sighting to the corresponding city.
     cityGroups[cityKey].sightings.push(sighting);
   });
-
-  // Create a marker for every city.
+  // Calculate dynamic thresholds based on city report counts.
+  const reportCounts = Object.values(cityGroups)
+      .map(city => city.sightings.length)
+      .sort((a, b) => a - b);
+  
+  const lowerThreshold = reportCounts[
+      Math.floor(reportCounts.length * 0.33)
+  ];
+  
+  const upperThreshold = reportCounts[
+      Math.floor(reportCounts.length * 0.66)
+  ];
+  // Create a marker for each city.
   Object.entries(cityGroups).forEach(([cityKey, cityData]) => {
 
-    // Create a Leaflet marker using the city's coordinates.
-    const marker = L.marker(cityData.coordinates);
+    // Get the number of reports for this city.
+    const reportCount = cityData.sightings.length;
 
-    // Display the city name and total sightings in the popup.
+    // Determine marker colour using dynamic thresholds.
+    let markerColour;
+    let activityLevel;
+    
+    if (reportCount <= lowerThreshold) {
+        markerColour = "#22c55e";
+        activityLevel = "Low";
+    }
+    else if (reportCount <= upperThreshold) {
+        markerColour = "#f59e0b";
+        activityLevel = "Moderate";
+    }
+    else {
+        markerColour = "#dc2626";
+        activityLevel = "High";
+    }
+
+    // Create a coloured Leaflet circle marker.
+    const marker = L.circleMarker(cityData.coordinates, {
+      radius: 9,
+      fillColor: markerColour,
+      color: "#ffffff",
+      weight: 2,
+      opacity: 1,
+      fillOpacity: 0.9
+    });
+
+    // Add popup information.
     marker.bindPopup(`
       <strong>${escapeHTML(cityData.name)}</strong><br>
-      ${cityData.sightings.length} sighting(s)
+      ${reportCount} sighting(s)<br>
+      <strong>Reported activity:</strong> ${activityLevel}
     `);
 
-    // When a marker is clicked, toggle its city records.
-marker.on("click", () => {
+    // Display city records when the marker is clicked.
+    marker.on("click", () => {
 
-    // If the same city is clicked again, close its records.
-    if (selectedCity === cityKey) {
+      if (selectedCity === cityKey) {
 
         selectedCity = null;
 
-        const cityRecords = document.getElementById("cityRecords");
         cityRecords.replaceChildren();
 
         const heading = document.createElement("h3");
@@ -367,25 +400,27 @@ marker.on("click", () => {
 
         const message = document.createElement("p");
         message.className = "muted";
-        message.textContent = "Click a map marker to view its sightings.";
+        message.textContent =
+          "Click a map marker to view its sightings.";
 
         cityRecords.append(heading, message);
 
-    } else {
+      } else {
 
-        // Otherwise, select the new city.
         selectedCity = cityKey;
 
-        // Display all sightings belonging to that city.
-        displayCityRecords(cityData.name, cityData.sightings);
-    }
-});
+        displayCityRecords(
+          cityData.name,
+          cityData.sightings
+        );
+      }
+    });
 
-    // Add the marker to the map.
+    // Add marker to the map.
     markersLayer.addLayer(marker);
   });
 
-  // Reset the records panel when the map is refreshed.
+  // Reset the city records panel.
   cityRecords.replaceChildren();
 
   const heading = document.createElement("h3");
@@ -393,13 +428,14 @@ marker.on("click", () => {
 
   const message = document.createElement("p");
   message.className = "muted";
-  message.textContent = "Click a map marker to view its sightings.";
+  message.textContent =
+    "Click a map marker to view its sightings.";
 
   cityRecords.append(heading, message);
 
-  // Return the total number of city markers.
   return Object.keys(cityGroups).length;
 }
+
 
 
 // Display all sightings belonging to the selected city.
@@ -634,8 +670,8 @@ function updateChart(records) {
               data: values,
 
               // Set the line colour and the background fill colour.
-              borderColor: "#287a55",
-              backgroundColor: "rgba(40, 122, 85, 0.12)",
+              borderColor: "#29287a",
+              backgroundColor: "rgba(44, 40, 122, 0.12)",
 
               // Fill the area underneath the line.
               fill: true,
