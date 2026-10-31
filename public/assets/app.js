@@ -121,10 +121,11 @@ function updateSpeciesDropdown() {
     ).trim() || "Unknown";
   }
 
-  // Retrieve the region associated with a sighting.
-  function getRegion(sighting) {
-    return String(sighting.region ?? "").trim();
-  }
+  // Retrieve the location associated with a sighting.
+  function getLocation(sighting) {
+    return String(
+        sighting.location ?? sighting.location_name ?? "").trim();
+}
 
   // Retrieve the latitude and check that it is within the valid range.
   function getLatitude(sighting) {
@@ -174,13 +175,20 @@ async function loadSightings(filters = {}) {
     );
 
     // Convert the API response into a JavaScript object.
-    const result = await response.json();
+    const responseText = await response.text();
 
-    // Check whether the request was successful.
+    console.log("Server response:", responseText);
+
+    let result;
+
+    try {
+        result = JSON.parse(responseText);
+    } catch (error) {
+        throw new Error("PHP returned an invalid response. Check the console.");
+    }
+
     if (!response.ok || result.success === false) {
-      throw new Error(
-        result.error || `HTTP error ${response.status}`
-      );
+        throw new Error(result.error || result.message || "Submission failed.");
     }
 
     // Check that the API returned an array of sighting records.
@@ -216,7 +224,7 @@ function updateDashboard() {
   // Get the HTML elements where the dashboard statistics will be displayed.
   const totalElement = document.getElementById("total");
   const recentElement = document.getElementById("recent");
-  const regionsElement = document.getElementById("regions");
+  const locationElement = document.getElementById("location");
 
   // Get the current date and calculate the date 30 days ago.
   const now = new Date();
@@ -229,12 +237,12 @@ function updateDashboard() {
     return date && date <= now && date >= cutoff;
   }).length;
 
-  // Create a collection of unique regions to prevent duplicate counting.
-  const regions = new Set(
+  // Create a collection of unique location to prevent duplicate counting.
+  const location = new Set(
     sightings
-      .map(getRegion)
-      .filter(region => region !== "")
-      .map(region => region.toLowerCase())
+      .map(getLocation)
+      .filter(location => location !== "")
+      .map(location => location.toLowerCase())
   );
 
   // Update the dashboard with the total number of sightings.
@@ -243,21 +251,21 @@ function updateDashboard() {
   // Display the number of sightings recorded in the last 30 days.
   recentElement.textContent = recentCount.toLocaleString("en-GB");
 
-  // Display the total number of unique regions.
-  regionsElement.textContent = regions.size.toLocaleString("en-GB");
+  // Display the total number of unique location.
+  locationElement.textContent = location.size.toLocaleString("en-GB");
 }
 
-// Apply the date, species, and region filters.
+// Apply the date, species, and location filters.
 function getFilteredSightings() {
 
   // Retrieve the values entered by the user in the filter form.
   const formData = new FormData(filterForm);
 
-  // Store the selected start date, end date, species and region.
+  // Store the selected start date, end date, species and location.
   const from = formData.get("from");
   const to = formData.get("to");
   const species = String(formData.get("species") || "").toLowerCase();
-  const region = String(formData.get("region") || "")
+  const location = String(formData.get("location") || "")
     .trim()
     .toLowerCase();
 
@@ -284,10 +292,9 @@ function getFilteredSightings() {
       return false;
     }
 
-    // Check whether the sighting region contains the entered search term.
+    // Check whether the sighting location contains the entered search term.
     if (
-      region &&
-      !getRegion(sighting).toLowerCase().includes(region)
+      location && !getLocation(sighting).toLowerCase().includes(location)
     ) {
       return false;
     }
@@ -314,8 +321,9 @@ function updateMap(records) {
 
   records.forEach(sighting => {
 
-    const city = String(sighting.location ?? "").trim();
-
+    const city = String(
+      sighting.location ?? sighting.location_name ?? ""
+    ).trim();
     const latitude = getLatitude(sighting);
     const longitude = getLongitude(sighting);
 
@@ -479,12 +487,8 @@ function displayCityRecords(city, records) {
     const location = document.createElement("p");
     location.textContent = `Location: ${sighting.location || "Unknown"}`;
 
-    // Display the region.
-    const region = document.createElement("p");
-    region.textContent = `Region: ${getRegion(sighting) || "Not provided"}`;
-
     // Add the information to the record card.
-    card.append(species, date, location, region);
+    card.append(species, date, location);
 
     // Add the card to the city records section.
     cityRecords.appendChild(card);
@@ -515,7 +519,6 @@ function showSightingDetails(sighting) {
   const fields = [
     ["Date", getDate(sighting)?.toISOString().slice(0, 10) || "Unknown"],
     ["Location", sighting.location ?? sighting.location_name ?? "Not provided"],
-    ["Region", getRegion(sighting) || "Not provided"],
     ["Notes", sighting.notes || "No additional notes"]
   ];
 
@@ -758,9 +761,8 @@ function applyFilters() {
 
   // Display the number of matching sightings and map markers.
   setStatus(
-    `${filtered.length} sighting${filtered.length === 1 ? "" : "s"} found; ` +
-    `${markerCount} displayed on the map.`
-  );
+    `${filtered.length} sightings found across ${markerCount} locations.`
+);
 }
 
 // Listen for filter form submissions without reloading the webpage.
@@ -803,34 +805,6 @@ reportForm.addEventListener("submit", async event => {
   // Collect all values entered into the report form.
   const data = new FormData(reportForm);
 
-  // Retrieve and remove unnecessary spaces from the coordinate values.
-  const latitude = String(data.get("latitude") || "").trim();
-  const longitude = String(data.get("longitude") || "").trim();
-
-  // Check that latitude and longitude are either both entered or both left blank.
-  if ((latitude === "") !== (longitude === "")) {
-    reportStatus.textContent =
-      "Enter both latitude and longitude, or leave both blank.";
-    return;
-  }
-
-  // Validate the coordinates if the user has provided them.
-  if (latitude !== "" && longitude !== "") {
-    const lat = Number(latitude);
-    const lng = Number(longitude);
-
-    // Ensure that the coordinates contain valid numerical values.
-    // Latitude must be between -90 and 90.
-    // Longitude must be between -180 and 180.
-    if (
-      !Number.isFinite(lat) || lat < -90 || lat > 90 ||
-      !Number.isFinite(lng) || lng < -180 || lng > 180
-    ) {
-      reportStatus.textContent = "Enter valid coordinates.";
-      return;
-    }
-  }
-
   // Retrieve the submit button so it can be disabled during submission.
   const submitButton = reportForm.querySelector('button[type="submit"]');
 
@@ -840,9 +814,16 @@ reportForm.addEventListener("submit", async event => {
   // Change the button text to show that the report is being processed.
   submitButton.textContent = "Submitting…";
 
+  
+  console.log("Location:", data.get("location_name"));
+  console.log("All submitted fields:");
+  
+  for (const [key, value] of data.entries()) {
+      console.log(key, value);
+  }
   try {
     // Change this URL to the PHP endpoint that saves user reports.
-    const response = await fetch("api/report.php", {
+    const response = await fetch("/elanco-placement/api/report.php", {
       method: "POST",
       headers: { Accept: "application/json" },
 

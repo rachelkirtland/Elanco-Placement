@@ -76,7 +76,6 @@ try {
             sighting_date,
             latin_name,
             location,
-            region,
             species,
             source
         ) VALUES (
@@ -84,7 +83,6 @@ try {
             :sighting_date,
             :latin_name,
             :location,
-            :region,
             :species,
             'elanco'
         )
@@ -94,7 +92,6 @@ try {
             sighting_date = excluded.sighting_date,
             latin_name = excluded.latin_name,
             location = excluded.location,
-            region = excluded.region,
             species = excluded.species
 
         -- Only updates records originally imported from Elanco.
@@ -155,7 +152,6 @@ try {
             ':sighting_date' => $date,
             ':latin_name' => $latinName !== '' ? $latinName : null,
             ':location' => $location !== '' ? $location : null,
-            ':region' => $location !== '' ? $location : null,
             ':species' => $species !== '' ? $species : null
         ]);
 

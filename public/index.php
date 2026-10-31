@@ -99,9 +99,9 @@
     </article>
 
     <article class="stat">
-      <span>Regions represented</span>
-      <strong id="regions">—</strong>
-      <small>Regions with reports</small>
+      <span>Locations represented</span>
+      <strong id="location">—</strong>
+      <small>Locations with reports</small>
     </article>
   </section>
 
@@ -130,8 +130,8 @@
         </select>
       </label>
 
-      <label>Region
-        <input name="region" placeholder="e.g. Yorkshire">
+      <label>Location
+        <input name="location" placeholder="e.g. Sheffield">
       </label>
 
       <button class="button" type="submit">Apply filters</button>
@@ -258,12 +258,6 @@
       <label>Location
         <input name="location_name" maxlength="150"
                placeholder="Town or area" required>
-      </label>
-
-      <!-- Region where the sighting occurred -->
-      <label>Region
-        <input name="region" maxlength="100"
-               placeholder="e.g. South Yorkshire">
       </label>
 
       <!-- Dropdown allowing users to select the tick species -->

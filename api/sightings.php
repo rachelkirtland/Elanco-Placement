@@ -157,23 +157,6 @@ try {
         $params[':species'] = $species;
     }
 
-    // Region filter.
-    // Filters sightings by the selected region.
-    if (isset($_GET['region']) &&
-        trim((string) $_GET['region']) !== '') {
-
-        $region = trim((string) $_GET['region']);
-
-        // Checks that the region value is not too long.
-        if (strlen($region) > 100) {
-            respond(['error' => 'Region filter is too long.'], 400);
-        }
-
-        // Adds the region condition to the search.
-        $where[] = 'region = :region';
-        $params[':region'] = $region;
-    }
-
     // Validate pagination.
     // Sets the maximum number of results and starting position.
     $limit = filter_var(

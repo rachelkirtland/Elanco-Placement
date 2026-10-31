@@ -37,12 +37,18 @@ function getDatabase(): PDO
             sighting_date TEXT NOT NULL,
             latin_name TEXT,
             location TEXT,
-            region TEXT,
             species TEXT,
             source TEXT NOT NULL DEFAULT 'community',
             created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
         );
     ");
+    $columns = $pdo->query("PRAGMA table_info(sightings)")
+               ->fetchAll(PDO::FETCH_COLUMN, 1);
+
+if (!in_array('notes', $columns, true)) {
+    $pdo->exec("ALTER TABLE sightings ADD COLUMN notes TEXT");
+}
+
     // Create a table to store geographical coordinates for each city.
     $pdo->exec("
     CREATE TABLE IF NOT EXISTS city_coordinates (
