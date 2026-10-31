@@ -4,6 +4,8 @@
   <!-- Sets the character encoding and makes the page responsive -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="This is a tick managment webpage. 
+  Where users can report sightings and contibute to the displayed map and charts visulising the spread of ticks in the UK">
 
   <!-- Page title shown in the browser tab -->
   <title>UK Tick Tracker</title>
@@ -24,7 +26,7 @@
 <!-- Header containing the website logo and report button -->
 <header class="topbar">
   <a class="brand" href="index.php">
-    <span>Elanco UK Tick Tracker<small>Community surveillance</small></span>
+    <span>Elanco UK Tick Tracker</span>
   </a>
   <a class="button button-light" href="#report">+ Report a sighting</a>
 </header>
@@ -37,6 +39,7 @@
     <a href="#map-section">Sighting map</a>
     <a href="#trends-section">Trends</a>
     <a href="#more-info">Tick species</a>
+    <a href="#report">Report</a>
 </nav>
 
 <main class="container" id="top">
