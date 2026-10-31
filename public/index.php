@@ -203,10 +203,30 @@
   <!-- Trends section displaying changes in tick sightings over time -->
   <section class="panel" id="trends-section">
     <div class="section-heading">
-      <div>
+    <div>
         <p class="eyebrow">ACTIVITY OVER TIME</p>
         <h2>Weekly sighting trends</h2>
-      </div>
+    </div>
+
+    
+    <!-- Weekly graph filters -->
+    <div class="chart-filters">
+
+        <label for="trendSpecies">Tick species:</label>
+        <select id="trendSpecies">
+            <option value="">All species</option>
+        </select>
+
+        <label for="trendLocation">Location:</label>
+        <input
+            type="text"
+            id="trendLocation"
+            placeholder="Search town or city..."
+            maxlength="150"
+        >
+
+    </div>
+
 
       <!-- Buttons allowing users to change the chart's time period -->
       <div class="chart-controls">

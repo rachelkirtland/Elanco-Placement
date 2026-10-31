@@ -67,6 +67,48 @@ function updateSpeciesDropdown() {
         : "";
 }
 
+
+// Populate the weekly graph species dropdown.
+  function updateTrendSpeciesDropdown() {
+
+      const select = document.getElementById("trendSpecies");
+
+      // Remember the selected species.
+      const selectedSpecies = select.value;
+
+      // Retrieve unique species from the database records.
+      const speciesList = [...new Set(
+          sightings
+              .map(sighting => getSpecies(sighting))
+              .filter(species => species !== "Unknown")
+      )].sort();
+
+      // Clear existing options.
+      select.replaceChildren();
+
+      // Add All species option.
+      const defaultOption = document.createElement("option");
+      defaultOption.value = "";
+      defaultOption.textContent = "All species";
+      select.appendChild(defaultOption);
+
+      // Add available species.
+      speciesList.forEach(species => {
+
+          const option = document.createElement("option");
+
+          option.value = species;
+          option.textContent = species;
+
+          select.appendChild(option);
+      });
+
+      // Restore previous selection.
+      select.value = speciesList.includes(selectedSpecies)
+          ? selectedSpecies
+          : "";
+  }
+
   // Initialise the Leaflet map and set its starting position to the UK.
   const map = L.map(mapElement).setView([54.5, -3], 6);
 
@@ -201,7 +243,8 @@ async function loadSightings(filters = {}) {
 
     // Populate the species dropdown using the retrieved database records.
     updateSpeciesDropdown();
-    
+    updateTrendSpeciesDropdown();
+
     updateDashboard();
     applyFilters();
 
@@ -549,6 +592,31 @@ function updateChart(records) {
   // Get the current date to determine which sightings should be included.
   const now = new Date();
 
+  
+  // Retrieve selected species and location.
+  const selectedSpecies = document.getElementById("trendSpecies").value.trim().toLowerCase();
+
+  const selectedLocation =document.getElementById("trendLocation").value.trim().toLowerCase();
+
+  // Filter records by species and location.
+  records = records.filter(sighting => {
+
+      const species = getSpecies(sighting).toLowerCase();
+      const location = getLocation(sighting).toLowerCase();
+
+      // Check species.
+      if (selectedSpecies && species !== selectedSpecies) {
+          return false;
+      }
+
+      // Check location.
+      if (selectedLocation && !location.includes(selectedLocation)) {
+          return false;
+      }
+
+      return true;
+  });
+
   // Store the earliest date to include in the selected chart period.
   let cutoff = null;
 
@@ -563,6 +631,46 @@ function updateChart(records) {
       cutoff = new Date(now);
       cutoff.setFullYear(cutoff.getFullYear() - 1);
   }
+  
+  
+  // Retrieve weekly graph filter elements.
+  const trendSpeciesSelect =
+      document.getElementById("trendSpecies");
+  
+  const trendLocationInput =
+      document.getElementById("trendLocation");
+  
+  // Refresh graph when species changes.
+  trendSpeciesSelect.addEventListener("change", () => {
+  
+      const filtered = getFilteredSightings();
+  
+      updateChart(filtered);
+  
+  });
+  
+  // // Refresh graph when location changes.
+  // trendLocationInput.addEventListener("input", () => {
+  
+  //     const filtered = getFilteredSightings();
+  
+  //     updateChart(filtered);
+  
+  // });
+  let locationTimer;
+
+  const locationInput = filterForm.elements.location;
+
+  trendLocationInput.addEventListener("input", () => {
+
+      clearTimeout(locationTimer);
+
+      locationTimer = setTimeout(() => {
+          applyFilters();
+      }, 200);
+
+  });
+  
 
   // Create a Map to store the number of sightings recorded in each week.
   const weeklyCounts = new Map();
@@ -656,6 +764,7 @@ function updateChart(records) {
       trendChart.data.datasets[0].data = values;
       trendChart.update();
       return;
+      animation: false;
   }
 
   // Create chart for the first time.

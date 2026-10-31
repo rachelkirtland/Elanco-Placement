@@ -1,42 +1,111 @@
-/* Main colour variables used throughout the website */
+/* =========================================
+   MAIN COLOUR VARIABLES
+========================================= */
+
 :root {
-  --ink: #24342d;
-  --border: #e1e3e8;
-  --surface: #ffffff;
-  --background: #f6f8f5;
-  --muted: #555555;
-  --black: #000000;
-  --blue:#014779 ;
+    --ink: #24342d;
+    --border: #e1e3e8;
+    --surface: #ffffff;
+    --background: #f6f8f5;
+    --muted: #555555;
+    --black: #000000;
+    --blue: #014779;
 }
 
 /* Makes element sizing easier to manage */
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
-/* Enables smooth scrolling between sections */
-html { scroll-behavior: smooth; }
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 75px;
+}
 
-/* Main styling for the whole page */
+/* =========================================
+   GENERAL PAGE STYLING
+========================================= */
+
 body {
-  margin: 0;
-  background: var(--background);
-  color: var(--ink);
-  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI",
-    sans-serif;
-  line-height: 1.55;
+    margin: 0;
+    background: var(--background);
+    color: var(--ink);
+    font-family: Inter, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", sans-serif;
+    line-height: 1.55;
 }
 
-/* Top header bar */
+h1, h2, h3, p {
+    margin-top: 0;
+}
+
+h1 {
+    margin-bottom: 16px;
+    font-size: clamp(32px, 5vw, 49px);
+    line-height: 1.12;
+    letter-spacing: -1.4px;
+}
+
+h2 {
+    margin-bottom: 6px;
+    font-size: 25px;
+    letter-spacing: -.5px;
+}
+
+h3 {
+    font-size: 16px;
+}
+
+.muted,
+small {
+    color: var(--muted);
+}
+
+.eyebrow {
+    margin-bottom: 10px;
+    color: var(--blue);
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.container {
+    width: min(1200px, 92%);
+    margin: 0 auto;
+}
+
+/* =========================================
+   HEADER AND NAVIGATION
+========================================= */
+
 .topbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 18px max(5%, calc((100% - 1200px) / 2));
-  background: var(--blue);
-  color: var(--surface);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px max(5%, calc((100% - 1200px) / 2));
+    background: var(--blue);
+    color: var(--surface);
 }
 
-/* Navigation bar that stays at the top when scrolling */
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: var(--surface);
+    font-size: 18px;
+    font-weight: 750;
+    text-decoration: none;
+}
+
+.brand small {
+    display: block;
+    color: var(--border);
+    font-size: 12px;
+    font-weight: 400;
+}
+
 .section-nav {
     position: sticky;
     top: 0;
@@ -54,12 +123,10 @@ body {
     scrollbar-width: none;
 }
 
-/* Hides the navigation scrollbar */
 .section-nav::-webkit-scrollbar {
     display: none;
 }
 
-/* Navigation link styling */
 .section-nav a {
     text-decoration: none;
     color: #59645c;
@@ -70,496 +137,289 @@ body {
     transition: all 0.2s ease;
 }
 
-/* Changes link colour when hovered over */
 .section-nav a:hover {
     background: #eaf2eb;
     color: #34754a;
 }
 
-/* Adds space above sections when scrolling to them */
-html {
-    scroll-behavior: smooth;
-    scroll-padding-top: 75px;
-}
+/* =========================================
+   INTRODUCTION SECTION
+========================================= */
 
-/* Adjusts the navigation for smaller screens */
-@media (max-width: 700px) {
-    .section-nav {
-        justify-content: flex-start;
-        padding: 10px 12px;
-    }
-
-    .section-nav a {
-        font-size: 12px;
-        padding: 8px 10px;
-    }
-}
-
-/* Website logo and name */
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  color: var(--surface);
-  font-size: 18px;
-  font-weight: 750;
-  text-decoration: none;
-}
-
-/* Smaller text underneath the brand name */
-.brand small {
-  display: block;
-  color: var(--border);
-  font-size: 12px;
-  font-weight: 400;
-}
-
-/* Main content container */
-.container {
-  width: min(1200px, 92%);
-  margin: 0 auto;
-}
-
-/* Introduction section layout */
 .intro {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 32px;
-  padding: 50px 0 32px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 32px;
+    padding: 50px 0 32px;
 }
 
-/* Removes the default top margin from headings and paragraphs */
-h1, h2, h3, p { margin-top: 0; }
-
-/* Main page heading */
-h1 {
-  margin-bottom: 16px;
-  font-size: clamp(32px, 5vw, 49px);
-  line-height: 1.12;
-  letter-spacing: -1.4px;
-}
-
-/* Section headings */
-h2 {
-  margin-bottom: 6px;
-  font-size: 25px;
-  letter-spacing: -.5px;
-}
-
-/* Smaller headings */
-h3 { font-size: 16px; }
-
-/* Small uppercase text above headings */
-.eyebrow {
-  margin-bottom: 10px;
-  color: var(--blue);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 1.5px;
-}
-
-/* Styling for less important text */
-.muted, small { color: var(--muted); }
-
-/* Notice box used to display extra information */
 .notice {
-  max-width: 300px;
-  padding: 20px;
-  border: 1px solid --border;
-  border-radius: 14px;
-  background: var(--border);
-  font-size: 14px;
-}
-
-/* Text inside the notice box */
-.notice p { margin: 8px 0 0; color: var(--black); }
-
-/* Layout for the three statistics cards */
-.stats {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 18px;
-  margin-bottom: 24px;
-}
-
-/* Shared styling for statistic cards and panels */
-.stat, .panel {
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  background: var(--surface);
-  box-shadow: 0 3px 14px #213b2b05;
-}
-
-/* Spacing inside statistic cards */
-.stat { padding: 23px; }
-
-/* Displays statistic labels on separate lines */
-.stat span, .stat small { display: block; }
-
-/* Statistic labels */
-.stat span { color: var(--muted); font-size: 13px; }
-
-/* Large statistic numbers */
-.stat strong {
-  display: block;
-  margin: 7px 0;
-  color: var(--blue);
-  font-size: 34px;
-  line-height: 1.2;
-}
-
-/* Smaller text underneath statistics */
-.stat small { font-size: 12px; }
-
-/* Main content panel styling */
-.panel { margin-bottom: 24px; padding: 26px; }
-
-/* Layout for section titles and additional information */
-.section-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 22px;
-}
-
-/* Adjusts spacing above section headings */
-.section-heading .eyebrow { margin-bottom: 5px; }
-
-/* Label showing live information */
-.live-label {
-  color: var(--blue);
-  font-size: 12px;
-}
-
-/* Grid layout for search and filter options */
-.filters {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(120px, 1fr));
-  align-items: end;
-  gap: 12px;
-  margin-bottom: 15px;
-}
-
-/* Form label styling */
-label {
-  display: block;
-  font-size: 12px;
-  font-weight: 650;
-}
-
-/* Shared styling for form inputs, dropdowns and text areas */
-input, select, textarea {
-  display: block;
-  width: 100%;
-  margin-top: 6px;
-  padding: 11px 12px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  background: white;
-  color: var(--ink);
-  font: inherit;
-  font-size: 13px;
-}
-
-/* Highlights form fields and links when selected using a keyboard */
-input:focus, select:focus, textarea:focus, button:focus-visible,
-a:focus-visible {
-  outline: 3px solid #4fabee;
-  outline-offset: 2px;
-}
-
-/* Main button styling */
-.button {
-  display: inline-flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 42px;
-  padding: 10px 16px;
-  border: 1px solid var(--blue);
-  border-radius: 8px;
-  background: var(--blue);
-  color: white;
-  font: inherit;
-  font-size: 13px;
-  font-weight: 700;
-  text-decoration: none;
-  cursor: pointer;
-}
-
-/* Button hover effect */
-.button:hover { background: var(--blue); }
-
-/* Lighter button style */
-.button-light {
-  border-color: var(--border);
-  background: white;
-  color: var(--blue);
-}
-
-/* Changes background when hovering over light buttons */
-.button-light:hover { background: var(--border); }
-
-/* Outlined button style */
-.button-outline {
-  background: white;
-  color: var(--blue);
-}
-
-/* Outlined button hover effect */
-.button-outline:hover { background: #4fabee; }
-
-/* Small text used for status messages */
-.status { color: var(--muted); font-size: 12px; }
-
-/* Layout containing the map and information panel */
-.map-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 260px;
-  gap: 18px;
-}
-
-/* Map display area */
-#map {
-  height: 510px;
-  min-width: 0;
-  border-radius: 12px;
-  background: var(--border);
-  z-index: 0;
-}
-
-/* Information panel next to the map */
-.detail {
-  align-self: start;
-  padding: 20px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: var(--border);
-  overflow-wrap: anywhere;
-}
-
-/* Icon displayed in the information panel */
-.detail-icon { color: var(--blue); font-size: 25px; }
-
-/* Spacing around information panel headings */
-.detail h3 { margin: 10px 0; }
-
-/* Information panel paragraph text */
-.detail p { font-size: 13px; }
-
-/* Small note underneath the map */
-.map-note { color: var(--muted); font-size: 11px; }
-
-/* Sets the height of the chart container */
-.chart-wrap { height: 280px; }
-
-/* Layout for the report section */
-.report-grid {
-  display: grid;
-  grid-template-columns: .8fr 1.2fr;
-  gap: 36px;
-  margin: 28px 0;
-  padding: 32px;
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  background: white;
-}
-
-/* Adds spacing above content inside the report section */
-.report-grid > div { padding-top: 10px; }
-
-/* Arranges report form fields vertically */
-.report-form { display: grid; gap: 15px; }
-
-/* Displays two form fields next to each other */
-.form-row {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-
-/* Education section spacing */
-.education { padding: 34px 0; }
-
-/* Grid layout for education cards */
-.education-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-  margin-top: 20px;
-}
-
-/* Individual education cards */
-.education-grid article {
-  padding: 22px;
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  background: white;
-}
-
-/* Number or icon displayed inside education cards */
-.education-grid article span {
-  display: inline-grid;
-  place-items: center;
-  width: 35px;
-  height: 35px;
-  margin-bottom: 14px;
-  border-radius: 10px;
-  background: #4fabee;
-  color: var(--blue);
-  font-weight: 800;
-}
-
-/* Paragraph text inside education cards */
-.education-grid p { margin-bottom: 0; color: var(--muted); font-size: 13px; }
-
-/* Footer styling at the bottom of the page */
-footer {
-  padding: 28px 0;
-  border-top: 1px solid var(--border);
-  color: var(--muted);
-  font-size: 12px;
-}
-
-/* Tablet layout adjustments */
-@media (max-width: 850px) {
-  .intro { align-items: flex-start; flex-direction: column; }
-  .notice { max-width: none; }
-  .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .map-layout { grid-template-columns: 1fr; }
-  #map { height: 430px; }
-  .report-grid { grid-template-columns: 1fr; }
-}
-
-/* Mobile layout adjustments */
-@media (max-width: 520px) {
-  .topbar { padding: 14px 4%; }
-  .brand { font-size: 15px; }
-  .brand-icon { width: 34px; height: 34px; }
-  .button-light { padding: 9px; font-size: 11px; }
-  .container { width: 94%; }
-  .stats { gap: 8px; }
-  .stat { padding: 12px 10px; }
-  .stat strong { font-size: 24px; }
-  .stat span { font-size: 11px; }
-  .stat small { font-size: 10px; }
-  .panel { padding: 16px; }
-  .filters { grid-template-columns: 1fr 1fr; gap: 10px; }
-  .form-row, .education-grid { grid-template-columns: 1fr; }
-  .report-grid { padding: 20px; }
-}
-
-/* Makes chart control buttons clickable and positions them correctly */
-.chart-controls button {
-  position: relative;
-  z-index: 2;
-  cursor: pointer;
-  pointer-events: auto;
-}
-
-/* Highlights the currently selected chart control */
-.chart-controls button.active {
-  background: var(--blue);
-  color: white;
-}
-
-/* City sightings section underneath the map */
-#cityRecords {
-    margin-top: 25px;
+    max-width: 300px;
     padding: 20px;
-    background-color: var(--surface);
-    border-radius: 10px;
-}
-
-/* Individual sighting cards */
-#cityRecords .sighting-card {
-    display: block;
-    padding: 15px;
-    margin: 12px 0;
-    border: 1px solid #dce5df;
-    border-left: 4px solid #29287a;
-    border-radius: 8px;
-    background-color: #f9faf9;
-    box-sizing: border-box;
-}
-
-/* Species heading inside each sighting card */
-#cityRecords .sighting-card h4 {
-    margin: 0 0 10px;
-    color: #29287a;
-    font-size: 16px;
-}
-
-/* Sighting details displayed inside each card */
-#cityRecords .sighting-card p {
-    margin: 6px 0;
-    color: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: var(--border);
     font-size: 14px;
-    line-height: 1.5;
 }
 
-/* Two-column layout for tick information cards */
-.tick-grid {
+.notice p {
+    margin: 8px 0 0;
+    color: var(--black);
+}
+
+/* =========================================
+   EDUCATION SECTION
+========================================= */
+
+.education {
+    padding: 34px 0;
+}
+
+.education-grid {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 20px;
-    margin-top: 24px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 20px;
 }
 
-/* Individual tick information cards */
-.tick-card {
-    background: #fff;
-    border: 1px solid #e5e9e5;
-    border-radius: 12px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-/* Slightly lifts cards when hovered over */
-.tick-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
-}
-
-/* Spacing inside tick cards */
-.tick-content {
+.education-grid article {
     padding: 22px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: white;
 }
 
-/* Tick card headings */
-.tick-content h3 {
-    margin: 0 0 8px;
+.education-grid article span {
+    display: inline-grid;
+    place-items: center;
+    width: 35px;
+    height: 35px;
+    margin-bottom: 14px;
+    border-radius: 10px;
+    background: #4fabee;
+    color: var(--blue);
+    font-weight: 800;
 }
 
-/* Tick card descriptions */
-.tick-content p {
-    margin: 0 0 10px;
-    line-height: 1.6;
-    color: #5a5964;
+.education-grid p {
+    margin-bottom: 0;
+    color: var(--muted);
+    font-size: 13px;
 }
 
-/* Links inside tick cards */
-.tick-content a {
-    display: inline-block;
-    margin-top: 8px;
-    color: #29287a;
-    font-weight: 600;
+/* =========================================
+   STATISTICS SECTION
+========================================= */
+
+.stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 24px;
+}
+
+.stat,
+.panel {
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: var(--surface);
+    box-shadow: 0 3px 14px #213b2b05;
+}
+
+.stat {
+    padding: 23px;
+}
+
+.stat span,
+.stat small {
+    display: block;
+}
+
+.stat span {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.stat strong {
+    display: block;
+    margin: 7px 0;
+    color: var(--blue);
+    font-size: 34px;
+    line-height: 1.2;
+}
+
+.stat small {
+    font-size: 12px;
+}
+
+/* =========================================
+   GENERAL PANELS AND SECTION HEADINGS
+========================================= */
+
+.panel {
+    margin-bottom: 24px;
+    padding: 26px;
+}
+
+.section-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 22px;
+}
+
+.section-heading .eyebrow {
+    margin-bottom: 5px;
+}
+
+.live-label {
+    color: var(--blue);
+    font-size: 12px;
+}
+
+/* =========================================
+   FORMS AND INPUTS
+========================================= */
+
+label {
+    display: block;
+    font-size: 12px;
+    font-weight: 650;
+}
+
+input,
+select,
+textarea {
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+    padding: 11px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: white;
+    color: var(--ink);
+    font: inherit;
+    font-size: 13px;
+}
+
+input:focus,
+select:focus,
+textarea:focus,
+button:focus-visible,
+a:focus-visible {
+    outline: 3px solid #4fabee;
+    outline-offset: 2px;
+}
+
+.filters {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(120px, 1fr));
+    align-items: end;
+    gap: 12px;
+    margin-bottom: 15px;
+}
+
+/* =========================================
+   BUTTONS
+========================================= */
+
+.button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 42px;
+    padding: 10px 16px;
+    border: 1px solid var(--blue);
+    border-radius: 8px;
+    background: var(--blue);
+    color: white;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 700;
     text-decoration: none;
+    cursor: pointer;
 }
 
-/* Underlines links when hovered over */
-.tick-content a:hover {
-    text-decoration: underline;
+.button:hover {
+    background: #01365c;
 }
 
-/* Changes tick cards to one column on mobile screens */
-@media (max-width: 600px) {
-    .tick-grid {
-        grid-template-columns: 1fr;
-    }
+.button-light {
+    border-color: var(--border);
+    background: white;
+    color: var(--blue);
 }
 
-/* Map activity legend */
+.button-light:hover {
+    background: var(--border);
+}
+
+.button-outline {
+    background: white;
+    color: var(--blue);
+}
+
+.button-outline:hover {
+    background: #eaf2f8;
+}
+
+/* =========================================
+   STATUS MESSAGES
+========================================= */
+
+.status {
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* =========================================
+   MAP SECTION
+========================================= */
+
+.map-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 260px;
+    gap: 18px;
+}
+
+#map {
+    height: 510px;
+    min-width: 0;
+    border-radius: 12px;
+    background: var(--border);
+    z-index: 0;
+}
+
+.detail {
+    align-self: start;
+    padding: 20px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: var(--border);
+    overflow-wrap: anywhere;
+}
+
+.detail-icon {
+    color: var(--blue);
+    font-size: 25px;
+}
+
+.detail h3 {
+    margin: 10px 0;
+}
+
+.detail p {
+    font-size: 13px;
+}
+
+.map-note {
+    color: var(--muted);
+    font-size: 11px;
+}
+
+/* Map legend */
 
 .map-legend {
     margin-top: 18px;
@@ -572,7 +432,7 @@ footer {
 .map-legend strong {
     display: block;
     margin-bottom: 12px;
-    color: #29287a;
+    color: var(--blue);
 }
 
 .legend-items {
@@ -608,9 +468,424 @@ footer {
     background: #dc2626;
 }
 
+/* City sightings */
+
+#cityRecords {
+    margin-top: 25px;
+    padding: 20px;
+    background-color: var(--surface);
+    border-radius: 10px;
+}
+
+#cityRecords .sighting-card {
+    display: block;
+    padding: 15px;
+    margin: 12px 0;
+    border: 1px solid #dce5df;
+    border-left: 4px solid var(--blue);
+    border-radius: 8px;
+    background-color: #f9faf9;
+}
+
+#cityRecords .sighting-card h4 {
+    margin: 0 0 10px;
+    color: var(--blue);
+    font-size: 16px;
+}
+
+#cityRecords .sighting-card p {
+    margin: 6px 0;
+    color: var(--muted);
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+/* =========================================
+   WEEKLY SIGHTING GRAPH
+========================================= */
+
+.chart-wrap {
+    position: relative;
+    height: 280px;
+    width: 100%;
+}
+
+/* Species and location filters */
+
+.chart-filters {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin: 15px 0 20px;
+}
+
+.chart-filters label {
+    font-size: 13px;
+    font-weight: 650;
+    color: var(--ink);
+}
+
+.chart-filters select,
+.chart-filters input {
+    width: auto;
+    min-width: 190px;
+    margin-top: 0;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--ink);
+    font: inherit;
+    font-size: 13px;
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.chart-filters input {
+    max-width: 240px;
+}
+
+.chart-filters select:focus,
+.chart-filters input:focus {
+    border-color: var(--blue);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(1, 71, 121, 0.12);
+}
+
+/* Time period buttons */
+
+.chart-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.chart-controls button {
+    position: relative;
+    z-index: 2;
+    padding: 10px 18px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--blue);
+    font-size: 13px;
+    font-weight: 650;
+    cursor: pointer;
+    pointer-events: auto;
+    transition: all 0.2s ease;
+}
+
+/* Button hover */
+
+.chart-controls button:hover {
+    background: #eaf2f8;
+    border-color: var(--blue);
+}
+
+/* Selected period */
+
+.chart-controls button.active {
+    background: var(--blue);
+    border-color: var(--blue);
+    color: white;
+    box-shadow: 0 3px 8px rgba(1, 71, 121, 0.2);
+}
+
+/* Selected button hover */
+
+.chart-controls button.active:hover {
+    background: #01365c;
+    border-color: #01365c;
+    color: white;
+}
+
+/* Keyboard accessibility */
+
+.chart-controls button:focus-visible {
+    outline: 3px solid #4fabee;
+    outline-offset: 3px;
+}
+
+/* =========================================
+   REPORT SECTION
+========================================= */
+
+.report-grid {
+    display: grid;
+    grid-template-columns: .8fr 1.2fr;
+    gap: 36px;
+    margin: 28px 0;
+    padding: 32px;
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    background: white;
+}
+
+.report-grid > div {
+    padding-top: 10px;
+}
+
+.report-form {
+    display: grid;
+    gap: 15px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+}
+
+/* =========================================
+   TICK SPECIES INFORMATION CARDS
+========================================= */
+
+.tick-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+    margin-top: 24px;
+}
+
+.tick-card {
+    background: #fff;
+    border: 1px solid #e5e9e5;
+    border-radius: 12px;
+    transition: transform 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+.tick-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.tick-content {
+    padding: 22px;
+}
+
+.tick-content h3 {
+    margin: 0 0 8px;
+}
+
+.tick-content p {
+    margin: 0 0 10px;
+    line-height: 1.6;
+    color: #5a5964;
+}
+
+.tick-content a {
+    display: inline-block;
+    margin-top: 8px;
+    color: var(--blue);
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.tick-content a:hover {
+    text-decoration: underline;
+}
+
+/* =========================================
+   FOOTER
+========================================= */
+
+footer {
+    padding: 28px 0;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 12px;
+}
+
+/* =========================================
+   TABLET RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 850px) {
+
+    .intro {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .notice {
+        max-width: none;
+    }
+
+    .filters {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .map-layout {
+        grid-template-columns: 1fr;
+    }
+
+    #map {
+        height: 430px;
+    }
+
+    .report-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .section-heading {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .chart-filters {
+        width: 100%;
+    }
+}
+
+/* =========================================
+   MOBILE RESPONSIVE DESIGN
+========================================= */
+
 @media (max-width: 600px) {
+
+    /* Navigation */
+
+    .section-nav {
+        justify-content: flex-start;
+        padding: 10px 12px;
+    }
+
+    .section-nav a {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+
+    /* Header */
+
+    .topbar {
+        padding: 14px 4%;
+    }
+
+    .brand {
+        font-size: 15px;
+    }
+
+    .brand-icon {
+        width: 34px;
+        height: 34px;
+    }
+
+    .button-light {
+        padding: 9px;
+        font-size: 11px;
+    }
+
+    /* Main content */
+
+    .container {
+        width: 94%;
+    }
+
+    /* Statistics */
+
+    .stats {
+        gap: 8px;
+    }
+
+    .stat {
+        padding: 12px 10px;
+    }
+
+    .stat strong {
+        font-size: 24px;
+    }
+
+    .stat span {
+        font-size: 11px;
+    }
+
+    .stat small {
+        font-size: 10px;
+    }
+
+    /* Panels */
+
+    .panel {
+        padding: 16px;
+    }
+
+    /* Map filters */
+
+    .filters {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    /* Education and report */
+
+    .form-row,
+    .education-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .report-grid {
+        padding: 20px;
+    }
+
+    /* Map legend */
+
     .legend-items {
         flex-direction: column;
         gap: 10px;
+    }
+
+    /* Tick cards */
+
+    .tick-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Weekly graph filters */
+
+    .chart-filters {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .chart-filters select,
+    .chart-filters input {
+        width: 100%;
+        max-width: none;
+    }
+
+    /* Weekly graph buttons */
+
+    .chart-controls {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        width: 100%;
+    }
+
+    .chart-controls button {
+        padding: 10px 6px;
+        font-size: 12px;
+    }
+}
+
+/* Smaller mobile screens */
+
+@media (max-width: 380px) {
+
+    .chart-controls {
+        gap: 5px;
+    }
+
+    .chart-controls button {
+        padding: 9px 4px;
+        font-size: 11px;
+    }
+
+    .stats {
+        grid-template-columns: 1fr;
     }
 }
