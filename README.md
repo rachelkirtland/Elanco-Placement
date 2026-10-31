@@ -46,3 +46,6 @@ Use the filters to search by date, species or region.
 View weekly sighting trends.
 Use filters to search by species, location and the time frame.
 Submit new sightings using the reporting form.
+
+**AI Decoloration**
+AI was used to help develop this project
