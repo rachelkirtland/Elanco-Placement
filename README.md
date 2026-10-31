@@ -16,7 +16,7 @@ Dashboard Statistics: Displays total sightings, recent sightings and the number 
 
 **Technologies Used**
 HTML5
-CSS3
+CSS
 JavaScript
 PHP
 SQLite
